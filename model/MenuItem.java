@@ -25,4 +25,19 @@ public class MenuItem {
                 description;
     }
 
+    /**
+     * ✅상세메뉴 이름 반환 메서드
+     * @return 상세메뉴 이름
+     */
+    public String getName(){
+        return name;
+    }
+    /**
+     * ✅상세메뉴 가격 반환 메서드
+     * @return 상세메뉴 가격
+     */
+    public double getPrice(){
+        return price;
+    }
+
 }
