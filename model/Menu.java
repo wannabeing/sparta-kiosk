@@ -26,12 +26,23 @@ public class Menu {
 
     // ✅GETTER | 메뉴 리스트 반환 메서드
     public List<MenuItem> getMenuItems(){
+        if(items.isEmpty()){
+            System.out.println("상세메뉴가 준비되지 않았습니다.");
+            return new ArrayList<>();
+        }
         return items;
     }
 
-    // ✅GETTER | 메뉴 리스트 반환 메서드
+    // ✅GETTER | 선택된 상세메뉴 반환 메서드
     public MenuItem getMenuItem(int index){
-        return items.get(index);
+        if (index > 0 && index <= items.size()) {
+            return items.get(index - 1);
+        }
+        // 잘못된 인덱스일 경우, null 반환
+        else {
+            System.out.println("잘못된 상세메뉴 번호입니다.");
+            return null;
+        }
     }
 
     // ✅GETTER | 메뉴 리스트 길이 반환 메서드

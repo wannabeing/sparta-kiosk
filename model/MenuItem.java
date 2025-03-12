@@ -2,9 +2,9 @@ package model;
 
 public class MenuItem {
     // ✅속성
-    private String name; // 이름
-    private double price; // 가격
-    private String description; // 설명
+    private final String name; // 이름
+    private final double price; // 가격
+    private final String description; // 설명
 
     // ✅생성자
     public MenuItem(String name, double price, String description) {
@@ -14,14 +14,15 @@ public class MenuItem {
     }
 
     /**
-     * ✅메뉴 정보 출력 메서드
-     * toString() 메서드 재정의하여 메뉴 정보를 반환
-     *
-     * @return 메뉴 정보
+     * ✅메뉴 속성 문자열 반환 메서드
+     * @return 메뉴 속성
      */
-    @Override
-    public String toString() {
-        return name + " | W " + price + " | " + description;
+    public String getFormattedString(){
+        return name +
+                " | W " +
+                price +
+                " | " +
+                description;
     }
 
 }

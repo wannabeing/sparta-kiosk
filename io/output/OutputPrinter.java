@@ -30,14 +30,13 @@ public class OutputPrinter {
 
     /**
      * ✅선택된 메뉴 출력 메서드
-     * @param menu 선택된 메뉴
+     * @param menuItems 상세메뉴 리스트
+     * @param category 메뉴 카테고리
      */
-    public void printSelectedMenu(Menu menu){
-        List<MenuItem> menuItems = menu.getMenuItems();
-
-        System.out.println("\n[ " + menu.getCategory() + " MENU ]");
+    public void printSelectedMenu(List<MenuItem> menuItems, String category){
+        System.out.println("\n[ " + category + " MENU ]");
         for (int i = 0; i < menuItems.size(); i++) {
-            System.out.println((i + 1) + ". " + menuItems.get(i));
+            System.out.println((i + 1) + ". " + menuItems.get(i).getFormattedString());
         }
     }
 
