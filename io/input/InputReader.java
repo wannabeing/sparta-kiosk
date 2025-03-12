@@ -7,21 +7,26 @@ public class InputReader {
     private static final Scanner scanner = new Scanner(System.in);
 
     /**
-     * ✅ 사용자의 숫자 입력 값을 검증하고 반환하는 메서드
+     * ✅입력한 값이 유효한지 검증하고 반환하는 메서드
      *
-     * @param range 유효한 값의 범위 (0 ~ range)
-     * @return 입력받은 정수 값
+     * @param maxRange 유효한 값의 최대 값
+     * @param allowZero 최소 범위에 0 포함 여부
+     * @return 유효한 정수 값
      */
-    public int checkIntScanner(int range) {
-        int number;
+    public int checkIntScanner(int maxRange, boolean allowZero) {
+        int number; // 사용자가 입력한 정수
+        boolean isValidRange; // 유효한 범위인지 검사하는 변수
 
         while(true){
             // 입력 값이 정수인 경우
             if(scanner.hasNextInt()){
                 number = scanner.nextInt();
 
-                // 0 ~ range 인 값일 경우 반환
-                if (number >= 0 && number <= range) {
+                // 유효 범위 설정 (0 포함 여부)
+                isValidRange = allowZero ? (number >= 0 && number <= maxRange) : (number > 0 && number <= maxRange);
+
+                // 유효한 범위일 경우, 정수 값 반환
+                if (isValidRange) {
                     return number;
                 }
             }
@@ -29,8 +34,7 @@ public class InputReader {
             else {
                 scanner.next();
             }
-
-            System.out.print("올바른 숫자를 입력하세요 (0 ~ " + range + "): ");
+            System.out.print("올바른 숫자를 입력하세요 (" + (allowZero ? "0" : "1") + " ~ " + maxRange + "): ");
         }
     }
 }
