@@ -150,17 +150,38 @@ public class OutputPrinter {
     /**
      * ✅장바구니 비우기 여부 안내를 출력하는 메서드
      */
-    public void printOrderCancelPrompt(){
-        printColorPrompt(TextColor.YELLOW, "\n장바구니를 비우시겠습니까?\n");
-        System.out.println("1. 비우기   2. 처음으로");
+    public void printOrderCancelPrompt(List<MenuItem> menuItems){
+        printColorPrompt(TextColor.YELLOW, "\n몇번째 메뉴를 삭제하시겠습니까??\n");
+
+        System.out.println("1. 취소하기");
+        for (int i = 0; i < menuItems.size(); i++) {
+            System.out.println((i + 2) + ". " + menuItems.get(i).getFormattedString());
+        }
+
+        printInputPrompt(InputPrompt.ALL);
+    }
+
+    public void printCartClearPrompt(){
+        printColorPrompt(TextColor.YELLOW, "정말로 삭제하시겠습니까?\n");
+
+        System.out.println("1. 삭제하기   2. 취소");
         printInputPrompt(InputPrompt.DEFAULT);
     }
 
     /**
-     * ✅장바구니 비우기 성공 안내를 출력하는 메서드
+     * ✅장바구니를 비우고 성공 안내를 출력하는 메서드
      */
     public void printSuccessCartClearPrompt(){
         printColorPrompt(TextColor.GREEN, "장바구니를 비웠습니다.\n\n");
+    }
+
+    /**
+     * ✅선택한 상세메뉴를 비우고 성공 안내를 출력하는 메서드
+     * @param name 삭제한 상세메뉴 이름
+     */
+    public void printSuccessCartClearPrompt(String name){
+        printColorPrompt(TextColor.GREEN, name);
+        System.out.println("을/를 장바구니에서 삭제하였습니다.");
     }
 
     /**

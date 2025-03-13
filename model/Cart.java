@@ -19,11 +19,34 @@ public class Cart {
      */
     public void add(MenuItem item){
         cartItems.add(item);
-        totalPrice += item.getPrice();
+        setTotalPrice(this.getTotalPrice() + item.getPrice());
     }
 
     /**
-     * ✅장바구니 비우기 메서드
+     * ✅장바구니에 들어 있는 상세메뉴 단일 삭제 메서드
+     * @param deleteItemMenuName 삭제할 상세메뉴 이름
+     */
+    public boolean deleteMenuItem(String deleteItemMenuName){
+        return cartItems.stream()
+                // 대소문자 구분하지 않고, 이름이 같은지 확인
+                .filter(menuItem -> menuItem.getName().equalsIgnoreCase(deleteItemMenuName))
+
+                // 첫번째로 일치하는 항목 선택
+                .findFirst()
+
+                // 존재하면 삭제 후, true 반환
+                .map(menuItem -> {
+                    cartItems.remove(menuItem);
+                    setTotalPrice(this.getTotalPrice() - menuItem.getPrice());
+                    return true;
+                })
+
+                // 존재하지 않을 경우, false 반환
+                .orElse(false);
+    }
+
+    /**
+     * ✅장바구니 전체 비우기 메서드
      */
     public void clear(){
         cartItems.clear();

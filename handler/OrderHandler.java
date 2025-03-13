@@ -4,6 +4,7 @@ import common.enums.Discount;
 import io.input.InputReader;
 import io.output.OutputPrinter;
 import model.Cart;
+import model.MenuItem;
 
 /**
  * 사용자의 장바구니를 조회하고
@@ -93,15 +94,53 @@ public class OrderHandler {
      */
     private void cancelOrder(){
         // 취소 메시지 출력
-        printer.printOrderCancelPrompt();
+        printer.printOrderCancelPrompt(cart.getCartItems());
 
-        // 1. 장바구니 비우기, 2. 처음으로
-        int selectedNumber = reader.checkIntScanner(2, false);
+        // 사용자가 입력한 유효번호
+        int selectedNumber = reader.checkIntScanner(cart.getCartItems().size() + 1, true);
 
-        // 장바구니 비울 경우
-        if(selectedNumber == 1){
+        // 0️⃣ 장바구니 전체비우기
+        if(selectedNumber == 0){
             printer.printSuccessCartClearPrompt();
             cart.clear();
         }
+        // 1️⃣ 취소하기 (메인으로 이동)
+        else if (selectedNumber == 1) {
+            printer.printCancelPrompt();
+        }
+        // 2️⃣~ 장바구니에 들어있는 메뉴 1개 삭제하기 (스트림 활용)
+        else {
+            // 정말로 삭제하는지 물어봄
+            printer.printCartClearPrompt();
+
+            // 정말로 삭제할 경우
+            if(reader.checkIntScanner(2, false) == 1){
+                // 선택된 인덱스번호의 상세메뉴 불러와서 삭제하기
+                MenuItem selectedMenuItem = getMenuItemByIndex(selectedNumber - 2);
+                boolean isSuccess = cart.deleteMenuItem(selectedMenuItem.getName());
+
+                // 성공적으로 삭제했을 경우
+                if(isSuccess){
+                    printer.printSuccessCartClearPrompt(selectedMenuItem.getName());
+                }
+                // 실패했을 경우
+                else {
+                    printer.printInvalidPrompt();
+                }
+            }
+        }
+    }
+
+    /**
+     * ✅유효한 인덱스번호로 상세메뉴를 찾고 반환하는 메서드
+     * @param index 유효한 인덱스 번호
+     * @return 상세메뉴
+     */
+    private MenuItem getMenuItemByIndex(int index){
+        return cart.getCartItems()
+                .stream()
+                .skip(index)
+                .findFirst()
+                .orElse(null);
     }
 }
