@@ -14,8 +14,8 @@ public class MenuItem {
     }
 
     /**
-     * ✅메뉴 속성 문자열 반환 메서드
-     * @return 메뉴 속성
+     * ✅상세메뉴 속성을 문자열로 반환하는 메서드
+     * @return 메뉴 속성 (문자열)
      */
     public String getFormattedString(){
         return name +
@@ -26,14 +26,14 @@ public class MenuItem {
     }
 
     /**
-     * ✅상세메뉴 이름 반환 메서드
+     * ✅상세메뉴의 이름을 반환하는 메서드
      * @return 상세메뉴 이름
      */
     public String getName(){
         return name;
     }
     /**
-     * ✅상세메뉴 가격 반환 메서드
+     * ✅상세메뉴의 가격을 반환하는 메서드
      * @return 상세메뉴 가격
      */
     public double getPrice(){

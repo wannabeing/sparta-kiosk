@@ -1,5 +1,9 @@
-package io.output;
+package common.enums;
 
+/**
+ * OutputPrinter 에서
+ * 색상 텍스트를 출력할 때 사용하는 Enum 클래스
+ */
 public enum TextColor {
     RED("\u001B[31m"),
     GREEN("\u001B[32m"),
@@ -10,10 +14,6 @@ public enum TextColor {
 
     TextColor(String code) {
         this.code = code;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     /**
