@@ -6,7 +6,7 @@ import java.util.List;
 public class Cart {
     // ✅속성
     private final List<MenuItem> cartItems; // 상세메뉴 리스트
-    private double totalPrice = 0; // 총 함계금액
+    private double totalPrice = 0; // 총 합계금액
 
     // ✅생성자
     public Cart(){
