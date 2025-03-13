@@ -1,5 +1,8 @@
 package io.output;
 
+import common.enums.Discount;
+import common.enums.InputPrompt;
+import common.enums.TextColor;
 import model.Cart;
 import model.Menu;
 import model.MenuItem;
@@ -43,7 +46,7 @@ public class OutputPrinter {
      * @param menus Menu 객체 리스트
      */
     public void printSpartaMenuList(List<Menu> menus){
-        printColorPrompt(TextColor.BLUE, "[ SPARTA MENU ]\n");
+        printColorPrompt(TextColor.BLUE, "\n[ SPARTA MENU ]\n");
         for (int i = 0; i < menus.size(); i++) {
             System.out.println((i + 1) + ". " + menus.get(i).getCategory());
         }
@@ -117,7 +120,28 @@ public class OutputPrinter {
         printColorPrompt(TextColor.YELLOW, "W " + cart.getTotalPrice() + "\n");
 
         // 장바구니 결제 여부 메시지
-        System.out.println("\n1. 주문   2. 메뉴판");
+        System.out.print("\n1. 주문   2. 메뉴판");
+
+        // 기본 입력창 출력
+        printInputPrompt(InputPrompt.DEFAULT);
+    }
+
+    /**
+     * ✅할인정보를 출력하는 메서드
+     */
+    public void printDiscountInfoPrompt(){
+        System.out.println("\n할인정보를 입력해주세요.");
+
+        // 할인대상 정보 출력
+        int index = 1;
+        for(Discount discount : Discount.values()){
+            printColorPrompt(TextColor.YELLOW,
+                    index++
+                    + ". "
+                    + discount.getLabel()
+                    + " : "
+                    + discount.getDiscountRatePercentage() + "\n");
+        }
 
         // 기본 입력창 출력
         printInputPrompt(InputPrompt.DEFAULT);
