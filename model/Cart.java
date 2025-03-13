@@ -39,7 +39,15 @@ public class Cart {
     }
 
     /**
-     * ✅장바구니 총 합계금액 반환 메서드
+     * ✅장바구니의 총 합계금액을 설정하는 메서드
+     * @param price 변경된 총 합계금액
+     */
+    public void setTotalPrice(double price){
+        totalPrice = price;
+    }
+
+    /**
+     * ✅장바구니의 총 합계금액 반환 메서드
      * @return 총 합계금액
      */
     public double getTotalPrice() {
