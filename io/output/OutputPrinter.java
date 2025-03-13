@@ -23,8 +23,8 @@ public class OutputPrinter {
      */
     public void printInputPrompt(InputPrompt promptType) {
         stringBuilder.setLength(0); // StringBuilder 초기화
-        stringBuilder.
-                append("\n➡️ 선택창")
+        stringBuilder
+                .append("\n➡️ 선택창")
                 .append(promptType.getMessage().isEmpty()
                         ? ""
                         : " (" + promptType.getMessage() + ")")
