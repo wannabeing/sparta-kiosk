@@ -1,8 +1,8 @@
 package io.output;
 
-import common.enums.Discount;
-import common.enums.InputPrompt;
-import common.enums.TextColor;
+import utils.Discount;
+import utils.InputPrompt;
+import utils.TextColor;
 import model.Cart;
 import model.Menu;
 import model.MenuItem;

@@ -2,10 +2,10 @@ package model;
 
 import handler.MenuHandler;
 import handler.OrderHandler;
-import common.enums.InputPrompt;
+import utils.InputPrompt;
 import io.input.InputReader;
 import io.output.OutputPrinter;
-import common.enums.TextColor;
+import utils.TextColor;
 
 import java.util.ArrayList;
 import java.util.List;

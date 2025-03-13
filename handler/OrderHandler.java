@@ -1,6 +1,6 @@
 package handler;
 
-import common.enums.Discount;
+import utils.Discount;
 import io.input.InputReader;
 import io.output.OutputPrinter;
 import model.Cart;

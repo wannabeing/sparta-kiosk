@@ -1,4 +1,4 @@
-package common.enums;
+package utils;
 
 /**
  * OutputPrinter 에서

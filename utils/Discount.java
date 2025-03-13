@@ -1,4 +1,4 @@
-package common.enums;
+package utils;
 
 public enum Discount {
     VETERAN(0.10, "국가유공자"),
