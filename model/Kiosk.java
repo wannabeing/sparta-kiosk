@@ -1,7 +1,11 @@
 package model;
 
+import handler.MenuHandler;
+import handler.OrderHandler;
+import common.enums.InputPrompt;
 import io.input.InputReader;
 import io.output.OutputPrinter;
+import common.enums.TextColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +19,20 @@ public class Kiosk {
     OutputPrinter printer;
     InputReader reader;
 
+    private final MenuHandler menuHandler;
+    private final OrderHandler orderHandler;
+
     // ✅생성자
     public Kiosk(){
         // 객체 초기화
         menus = new ArrayList<>();
         cart = new Cart();
+
         printer = new OutputPrinter();
         reader = new InputReader();
+
+        menuHandler = new MenuHandler(cart, menus);
+        orderHandler = new OrderHandler(cart);
 
         // 메인 메뉴 생성
         initializeSpartaMenu();
@@ -30,110 +41,37 @@ public class Kiosk {
         updateKioskMenuRange();
     }
 
-    // ✅프로그램 시작 메서드
-    // FIXME: SPARTA MENU 프로세스, ORDER MENU 프로세스 구분 필요
+    // ✅키오스크 프로그램 시작 메서드
     public void start(){
         // 무한 루프 시작
         while (true){
             // 키오스크 메뉴 출력
             this.displayKioskMenu();
 
-            // selectedMenuNumber: 유효한 사용자 입력 값
-            int selectedMenuNumber = getSelectedNumberInRange(kioskMenuMaxValue, true);
+            // 유효한 사용자 입력 값을 받음
+            int selectedMenuNumber = menuHandler.getSelectedNumberInRange(kioskMenuMaxValue, true);
 
             // 0 입력 받을 시, 프로그램 종료
             if (selectedMenuNumber == 0){
-                this.exit();
+                this.terminate();
                 break;
             }
 
-            // ORDER MENU 프로세스 처리
-            if(!cart.getCartItems().isEmpty()){
-                int orderMenuRange = menus.size() + 1;
+            // 장바구니 기능의 시작 번호
+            int orderMenuStartNumber = menus.size() + 1;
 
-                if(selectedMenuNumber == orderMenuRange){
-                    placeOrder();
-                    continue;
-                } else if (selectedMenuNumber == orderMenuRange + 1){
-                    cancelOrder();
-                    continue;
-                }
-            }
+            // ✅주문 기능 실행 (장바구니가 비어있지 않고, 장바구니 기능 번호를 눌렀을 경우)
+            if(!cart.getCartItems().isEmpty() && selectedMenuNumber >= orderMenuStartNumber){
+                // OrderMenu(주문) 기능 실행
+                orderHandler.selectOrderMenu(selectedMenuNumber, orderMenuStartNumber);
 
-            // 선택한 메뉴
-            Menu selectedMenu = getSelectedMenu(selectedMenuNumber);
-
-            // 잘못된 메뉴번호일 경우, 메인으로 이동
-            if(selectedMenu == null){
-                printer.printInvalidPrompt();
+                // 실행 이후, 메인으로 이동
                 continue;
             }
 
-            // 선택한 메뉴 출력
-            printer.printSelectedMenu(selectedMenu.getMenuItems(), selectedMenu.getCategory());
+            // ✅메뉴 선택기능 실행 (장바구니 기능번호가 아닐 경우)
+            menuHandler.chooseMenu(selectedMenuNumber);
 
-            // selectedMenuItemNumber: 유효한 사용자 입력 값
-            printer.printInputPromptWithBack();
-            int selectedMenuItemNumber = getSelectedNumberInRange(selectedMenu.getMenuItemCount(), true);
-
-            // 0 입력 받을 시, 메인으로 이동
-            if (selectedMenuItemNumber == 0){
-                System.out.println();
-                continue;
-            }
-
-            // 선택한 상세메뉴
-            MenuItem selectedMenuItem = selectedMenu.getMenuItem(selectedMenuItemNumber);
-
-            // 잘못된 상세메뉴번호일 경우, 메인으로 이동
-            if(selectedMenuItem == null){
-                printer.printInvalidPrompt();
-                continue;
-            }
-
-            // 선택한 상세메뉴 출력
-            printer.printSelectedMenuItem(selectedMenuItem.getFormattedString());
-
-            // cartAddNumber: 입력받은 사용자 정수 값 (1: 추가, 2: 취소)
-            printer.printInputPrompt();
-            int cartAddNumber = getSelectedNumberInRange(2, false);
-
-
-            // 1. 장바구니에 추가 시
-            if(cartAddNumber == 1){
-                printer.printSuccessAddCart(selectedMenuItem);
-                cart.add(selectedMenuItem);
-            }
-            // 2. 장바구니 취소 시
-            else {
-                printer.printCancelPrompt();
-            }
-        }
-    }
-
-    private void placeOrder(){
-        // 장바구니 출력
-        printer.printOrderCartPrompt(cart);
-
-        // 1. 주문, 2. 메뉴판
-        int selectedNumber = reader.checkIntScanner(2, false);
-
-        if(selectedNumber == 1){
-            printer.printSuccessOrderPrompt(cart.getTotalPrice());
-            cart.clear();
-        }
-    }
-
-    private void cancelOrder(){
-        // 취소 메시지 출력
-        printer.printOrderCancelPrompt();
-
-        // 1. 장바구니 비우기, 2. 처음으로
-        int selectedNumber = reader.checkIntScanner(2, false);
-
-        if(selectedNumber == 1){
-            printer.printSuccessCartClear();
-            cart.clear();
         }
     }
 
@@ -141,7 +79,7 @@ public class Kiosk {
     private void displayKioskMenu() {
         // 메인 메뉴가 비어있는지 확인
         if(menus.isEmpty()){
-            System.out.println("영업준비중 입니다...🚀");
+            printer.printColorPrompt(TextColor.YELLOW, "영업준비중 입니다...🚀\n");
             System.exit(0);
         }
 
@@ -149,35 +87,20 @@ public class Kiosk {
         updateKioskMenuRange();
 
         // 메인 메뉴(스파르타 메뉴) 출력
-        printer.printMainMenuList(menus);
+        printer.printSpartaMenuList(menus);
 
         // 장바구니가 비어있지 않으면, 오더 메뉴 추가하여 출력
         if(!cart.getCartItems().isEmpty()){
             printer.printOrderMenu(menus.size() + 1);
         }
         // 입력창 출력
-        printer.printInputPromptWithExit();
+        printer.printInputPrompt(InputPrompt.EXIT);
     }
 
-    // ✅선택된 번호 반환 메서드
-    private int getSelectedNumberInRange(int maxRange, boolean allowZero){
-        return reader.checkIntScanner(maxRange, allowZero);
-    }
-
-    // ✅선택메뉴 반환 메서드
-    private Menu getSelectedMenu(int number){
-        if (number > 0 && number <= menus.size()) {
-            return menus.get(number - 1);
-        }
-        // 잘못된 인덱스일 경우, null 반환
-        else {
-            System.out.println("잘못된 메뉴번호 입니다.");
-            return null;
-        }
-    }
-
-    // ✅프로그램 종료 메서드
-    public void exit(){
+    /**
+     * ✅키오스크 프로그램 종료 메서드
+     */
+    public void terminate(){
         printer.printExitPrompt();
         System.exit(0); // 프로그램 종료
     }
