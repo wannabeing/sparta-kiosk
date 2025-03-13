@@ -6,46 +6,65 @@ import java.util.List;
 public class Menu {
     // ✅속성
     private final String category; // 메뉴 카테고리(이름)
-    private final List<MenuItem> items; // 메뉴 항목 리스트
+    private final List<MenuItem> items; // 상세메뉴 리스트
 
     // ✅생성자
     public Menu(String category){
-        this.category = category; // 메뉴 카테고리 초기화
-        this.items = new ArrayList<>(); // 메뉴 리스트 초기화
+        this.category = category;
+        this.items = new ArrayList<>();
     }
 
-    // ✅SETTER | 메뉴 추가 메서드
+    /**
+     * ✅메뉴에 상세메뉴를 추가하는 메서드
+     * @param item 추가할 상세메뉴
+     */
     public void addMenuItem(MenuItem item){
         items.add(item);
     }
 
-    // ✅GETTER | 메뉴 이름 반환 메서드
+    /**
+     * ✅메뉴 카테고리(이름) 반환하는 메서드
+     * @return 메뉴 카테고리(이름)
+     */
     public String getCategory() {
         return category;
     }
 
-    // ✅GETTER | 메뉴 리스트 반환 메서드
+    /**
+     * ✅메뉴에 있는 상세메뉴 리스트 전체를 반환하는 메서드
+     * Q. Collections.unmodifiableList()
+     * -> items 자체를 불변리스트로 만들기 위한 코드
+     *
+     * @return 메뉴에 있는 상세메뉴 리스트
+     */
     public List<MenuItem> getMenuItems(){
-        if(items.isEmpty()){
-            System.out.println("상세메뉴가 준비되지 않았습니다.");
-            return new ArrayList<>();
-        }
-        return items;
+        return items.isEmpty()
+                ? List.of()
+                : items.stream().toList();
     }
 
-    // ✅GETTER | 선택된 상세메뉴 반환 메서드
+    /**
+     * ✅선택된 상세메뉴를 반환하는 메서드
+     * @param index 상세메뉴의 인덱스 번호
+     * @return 선택된 상세메뉴
+     */
     public MenuItem getMenuItem(int index){
-        if (index > 0 && index <= items.size()) {
-            return items.get(index - 1);
-        }
-        // 잘못된 인덱스일 경우, null 반환
-        else {
+        // 인덱스가 유효하지 않은 경우
+        if(index < 1 || index > items.size()) {
             System.out.println("잘못된 상세메뉴 번호입니다.");
             return null;
         }
+
+        return items.stream()
+                .skip(index - 1) // 인덱스에 해당하는 처음 값 가져오기
+                .findFirst()
+                .orElse(null);
     }
 
-    // ✅GETTER | 메뉴 리스트 길이 반환 메서드
+    /**
+     * ✅메뉴에 저장된 상세메뉴 개수를 반환하는 메서드
+     * @return 상세메뉴의 개수
+     */
     public int getMenuItemCount(){
         return items.size();
     }
