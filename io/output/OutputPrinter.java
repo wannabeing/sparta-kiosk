@@ -1,8 +1,6 @@
 package io.output;
 
-import utils.Discount;
-import utils.InputPrompt;
-import utils.TextColor;
+import model.Discount;
 import model.Cart;
 import model.Menu;
 import model.MenuItem;
@@ -21,7 +19,7 @@ public class OutputPrinter {
      * ✅[공통] 입력창 프롬프트 출력 메서드
      * @param promptType 입력창 프롬프트 기능 설정 (Enum InputPrompt)
      */
-    public void printInputPrompt(InputPrompt promptType) {
+    public void printInputPrompt(SelectPromptType promptType) {
         stringBuilder.setLength(0); // StringBuilder 초기화
         stringBuilder
                 .append("\n➡️ 선택창")
@@ -74,7 +72,7 @@ public class OutputPrinter {
         }
 
         // 뒤로가기 기능 포함 입력창 출력
-        printInputPrompt(InputPrompt.BACK);
+        printInputPrompt(SelectPromptType.BACK);
     }
 
     /**
@@ -90,7 +88,7 @@ public class OutputPrinter {
         System.out.println("1. 확인   2. 취소");
 
         // 기본 입력창 출력
-        printInputPrompt(InputPrompt.DEFAULT);
+        printInputPrompt(SelectPromptType.DEFAULT);
     }
 
     /**
@@ -123,7 +121,7 @@ public class OutputPrinter {
         System.out.print("\n1. 주문   2. 메뉴판");
 
         // 기본 입력창 출력
-        printInputPrompt(InputPrompt.DEFAULT);
+        printInputPrompt(SelectPromptType.DEFAULT);
     }
 
     /**
@@ -144,7 +142,7 @@ public class OutputPrinter {
         }
 
         // 기본 입력창 출력
-        printInputPrompt(InputPrompt.DEFAULT);
+        printInputPrompt(SelectPromptType.DEFAULT);
     }
 
     /**
@@ -158,14 +156,14 @@ public class OutputPrinter {
             System.out.println((i + 2) + ". " + menuItems.get(i).getFormattedString());
         }
 
-        printInputPrompt(InputPrompt.ALL);
+        printInputPrompt(SelectPromptType.ALL);
     }
 
     public void printCartClearPrompt(){
         printColorPrompt(TextColor.YELLOW, "정말로 삭제하시겠습니까?\n");
 
         System.out.println("1. 삭제하기   2. 취소");
-        printInputPrompt(InputPrompt.DEFAULT);
+        printInputPrompt(SelectPromptType.DEFAULT);
     }
 
     /**

@@ -1,10 +1,10 @@
-package utils;
+package io.output;
 
 /**
  * OutputPrinter 에서
  * 사용자 입력창을 동적으로 보여줄 때 사용하는 Enum 클래스
  */
-public enum InputPrompt {
+public enum SelectPromptType {
     EXIT("프로그램 종료: 0"),
     BACK("뒤로가기: 0"),
     ALL("전체비우기: 0"),
@@ -14,7 +14,7 @@ public enum InputPrompt {
     private final String message;
 
     // ✅생성자
-    InputPrompt(String message) {
+    SelectPromptType(String message) {
         this.message = message;
     }
 

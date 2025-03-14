@@ -1,4 +1,4 @@
-package utils;
+package io.output;
 
 /**
  * OutputPrinter 에서

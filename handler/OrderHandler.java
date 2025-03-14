@@ -1,6 +1,6 @@
 package handler;
 
-import utils.Discount;
+import model.Discount;
 import io.input.InputReader;
 import io.output.OutputPrinter;
 import model.Cart;

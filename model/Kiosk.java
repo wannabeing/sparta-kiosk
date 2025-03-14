@@ -2,10 +2,10 @@ package model;
 
 import handler.MenuHandler;
 import handler.OrderHandler;
-import utils.InputPrompt;
+import io.output.SelectPromptType;
 import io.input.InputReader;
 import io.output.OutputPrinter;
-import utils.TextColor;
+import io.output.TextColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,7 @@ public class Kiosk {
             printer.printOrderMenu(menus.size() + 1);
         }
         // 입력창 출력
-        printer.printInputPrompt(InputPrompt.EXIT);
+        printer.printInputPrompt(SelectPromptType.EXIT);
     }
 
     /**
